@@ -42,7 +42,15 @@ public class BookService {
     }
 
     public List<Book> getBooks(String genre, boolean available, String author){
-//        List<Book> books = null; //find the elements of the list by yourself
+        List<Book> books = null; //find the elements of the list by yourself
+
+        books.addAll(bookRepository2.findBooksByAuthor(author,available));
+        books.addAll(bookRepository2.findBooksByGenre(genre,available));
+        books.addAll(bookRepository2.findBooksByGenreAuthor(genre, author, available));
+        books.addAll(bookRepository2.findByAvailability(available));
+
+
+        return books;
 //        if(genre != null && author != null)
 //        {
 //            books = bookRepository2.findBooksByGenreAuthor(genre , author , available);
@@ -62,15 +70,5 @@ public class BookService {
 //            books = bookRepository2.findByAvailability(available);
 //        }
 //        return books;
-
-        if(genre != null && author != null){
-            return bookRepository2.findBooksByGenreAuthor(genre, author, available);
-        }else if(genre != null){
-            return bookRepository2.findBooksByGenre(genre, available);
-        }else if(author != null){
-            return bookRepository2.findBooksByAuthor(author, available);
-        }else{
-            return bookRepository2.findByAvailability(available);
-        }
   }
 }

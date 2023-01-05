@@ -33,12 +33,8 @@ public class BookController {
                                    @RequestParam(value = "available", required = false, defaultValue = "false") boolean available,
                                    @RequestParam(value = "author", required = false) String author){
 
-//        List<Book> bookList = null; //find the elements of the list by yourself
-//        bookList = bs.getBooks(genre , available , author);
-//
-//        return new ResponseEntity<>(bookList, HttpStatus.OK);
-
-        List<Book> bookList = bs.getBooks(genre, available, author);
+        List<Book> bookList = null; //find the elements of the list by yourself
+        bookList = bs.getBooks(genre , available , author);
 
         return new ResponseEntity<>(bookList, HttpStatus.OK);
     }
