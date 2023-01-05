@@ -126,49 +126,82 @@ public class TransactionService {
 
     public Transaction returnBook(int cardId, int bookId) throws Exception{
 
-        List<Transaction> transactions = transactionRepository5.find(cardId, bookId, TransactionStatus.SUCCESSFUL, true);
+//        List<Transaction> transactions = transactionRepository5.find(cardId, bookId, TransactionStatus.SUCCESSFUL, true);
+//        Transaction transaction = transactions.get(transactions.size() - 1);
+//
+//        if(transactions.size() == 0) return transaction;
+//
+//        //for the given transaction calculate the fine amount considering the book has been returned exactly when this function is called
+//        Date issueDate = transaction.getTransactionDate();
+//        long miliSecondsPassed = issueDate.getTime();
+//        int daysPassed = (int) ((System.currentTimeMillis() - miliSecondsPassed) / (1000 * 60 * 60 * 24));
+//
+//        int fine =0;
+//        if(daysPassed > getMax_allowed_days)
+//        {
+//            fine = (daysPassed - getMax_allowed_days) * fine_per_day;
+//        }
+//        //make the book available for other users
+//        Book b = bookRepository5.findById(bookId).get();
+//        b.setAvailable(true);
+//        b.setCard(null);// link between card and book is removed
+//        bookRepository5.save(b);
+//        //make a new transaction for return book which contains the fine amount as well
+//
+//        //Transaction returnBookTransaction  = null;
+//        Card c = cardRepository5.findById(cardId).get();
+//        Transaction returnBookTransaction = new Transaction();
+//        returnBookTransaction.setFineAmount(fine);
+//        returnBookTransaction.setCard(c); // transaction table me card id link ho jaegi
+//        returnBookTransaction.setBook(b); // book id aa jaegi
+//        returnBookTransaction.setTransactionStatus(TransactionStatus.SUCCESSFUL);
+//
+//        List<Transaction> transactionList = b.getTransactions();
+//        transactionList.add(returnBookTransaction);
+//        b.setTransactions(transactionList);
+//
+//        // remove the book from card which is present in a list
+//        List<Book> books = c.getBooks();
+//        for(int i = 0; i<books.size(); i++)
+//        {
+//            if(books.get(i).getId() == bookId) books.remove(i);
+//        }
+//        cardRepository5.save(c);
+//
+//
+//        return returnBookTransaction; //return the transaction after updating all details
+
+        List<Transaction> transactions = transactionRepository5.find(cardId, bookId,TransactionStatus.SUCCESSFUL, true);
+
         Transaction transaction = transactions.get(transactions.size() - 1);
 
-        if(transactions.size() == 0) return transaction;
-
-        //for the given transaction calculate the fine amount considering the book has been returned exactly when this function is called
         Date issueDate = transaction.getTransactionDate();
-        long miliSecondsPassed = issueDate.getTime();
-        int daysPassed = (int) ((System.currentTimeMillis() - miliSecondsPassed) / (1000 * 60 * 60 * 24));
 
-        int fine =0;
-        if(daysPassed > getMax_allowed_days)
-        {
-            fine = (daysPassed - getMax_allowed_days) * fine_per_day;
+        long timeIssuetime = Math.abs(System.currentTimeMillis() - issueDate.getTime());
+
+        long no_of_days_passed = TimeUnit.DAYS.convert(timeIssuetime, TimeUnit.MILLISECONDS);
+
+        int fine = 0;
+        if(no_of_days_passed > getMax_allowed_days){
+            fine = (int)((no_of_days_passed - getMax_allowed_days) * fine_per_day);
         }
-        //make the book available for other users
-        Book b = bookRepository5.findById(bookId).get();
-        b.setAvailable(true);
-        b.setCard(null);// link between card and book is removed
-        bookRepository5.save(b);
-        //make a new transaction for return book which contains the fine amount as well
 
-        //Transaction returnBookTransaction  = null;
-        Card c = cardRepository5.findById(cardId).get();
-        Transaction returnBookTransaction = new Transaction();
-        returnBookTransaction.setFineAmount(fine);
-        returnBookTransaction.setCard(c); // transaction table me card id link ho jaegi
-        returnBookTransaction.setBook(b); // book id aa jaegi
-        returnBookTransaction.setTransactionStatus(TransactionStatus.SUCCESSFUL);
+        Book book = transaction.getBook();
 
-        List<Transaction> transactionList = b.getTransactions();
-        transactionList.add(returnBookTransaction);
-        b.setTransactions(transactionList);
+        book.setAvailable(true);
+        book.setCard(null);
 
-        // remove the book from card which is present in a list
-        List<Book> books = c.getBooks();
-        for(int i = 0; i<books.size(); i++)
-        {
-            if(books.get(i).getId() == bookId) books.remove(i);
-        }
-        cardRepository5.save(c);
+        bookRepository5.updateBook(book);
 
+        Transaction tr = new Transaction();
+        tr.setBook(transaction.getBook());
+        tr.setCard(transaction.getCard());
+        tr.setIssueOperation(false);
+        tr.setFineAmount(fine);
+        tr.setTransactionStatus(TransactionStatus.SUCCESSFUL);
 
-        return returnBookTransaction; //return the transaction after updating all details
+        transactionRepository5.save(tr);
+
+        return tr;
     }
 }

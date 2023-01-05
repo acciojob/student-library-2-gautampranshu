@@ -26,12 +26,10 @@ public class TransactionController {
     //Add required annotations
     @PostMapping("/returnBook")
     public ResponseEntity returnBook(@RequestParam("cardId") int cardId, @RequestParam("bookId") int bookId) throws Exception{
-//        //Transaction t = ts.returnBook(cardId , bookId);
-//        ts.returnBook(cardId , bookId);
-//       // return new ResponseEntity<>(t, HttpStatus.ACCEPTED);
-//        return new ResponseEntity<>("transaction completed", HttpStatus.ACCEPTED);
+        //Transaction t = ts.returnBook(cardId , bookId);
+        ts.returnBook(cardId , bookId);
+       // return new ResponseEntity<>(t, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("transaction completed", HttpStatus.ACCEPTED);
 
-        Transaction externalTransaction = ts.returnBook(cardId, bookId);
-        return new ResponseEntity<>("transaction completed, here is your transactionId - " + externalTransaction.getTransactionId(), HttpStatus.ACCEPTED);
     }
 }
