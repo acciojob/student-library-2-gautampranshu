@@ -35,7 +35,10 @@ public class BookService {
 //        a.setBooksWritten(books);
 //        book.setAuthor(a);
 //        ar.save(a); //parent(author) is saved therefore child(book) will automatically save
-          bookRepository2.save(book);
+        ////////////////////////////////////////////////////////////////////
+          bookRepository2.save(book); // agar author id doge toh table me aa jaega nhi toh null rahega
+         //aur yehi karna tha otherwise error will come in junit
+        // author id dena compulsory nhi hain
     }
 
     public List<Book> getBooks(String genre, boolean available, String author){
