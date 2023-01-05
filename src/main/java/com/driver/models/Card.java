@@ -1,6 +1,9 @@
 package com.driver.models;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Setter
+@Getter
 public class Card {
 
     @Id
