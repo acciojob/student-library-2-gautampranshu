@@ -23,6 +23,7 @@ public class BookController {
     public ResponseEntity<String> createBook(@RequestBody() Book b)
     {
         bs.createBook(b);
+
         return new ResponseEntity("book is added successfully" , HttpStatus.CREATED);
     }
 

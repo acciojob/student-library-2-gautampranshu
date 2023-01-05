@@ -25,7 +25,9 @@ public class BookService {
         //jab hum book ka json likhenge tab hume hi batana padega ki yeh kis author ki hain
         //by giving author id in json
         int authorId = book.getAuthor().getId();
+        boolean checkAuthor = ar.existsById(authorId);
         //get the author using author id from author table
+        if(checkAuthor == false) return;
         Author a = ar.findById(authorId).get();
         //now set this author list of bookswritten
         List<Book> books = a.getBooksWritten();
