@@ -39,7 +39,7 @@ public class TransactionService {
         //check whether bookId and cardId already exist
         boolean checkBook = bookRepository5.existsById(bookId);
         boolean checkCard = cardRepository5.existsById(cardId);
-        System.out.println(checkBook);
+       // System.out.println(checkBook);
         Book emptyBook = new Book();
         Book b = bookRepository5.findById(bookId).orElse(emptyBook);
         Card emptyCard = new Card();
