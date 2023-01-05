@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 //Add required annotations
 @RestController
-@RequestMapping("student")
+@RequestMapping("/student")
 public class StudentController {
 
     @Autowired
@@ -32,21 +32,21 @@ public class StudentController {
     }
 
     //Add required annotations
-    @PostMapping("")
+    @PostMapping("/")
     public ResponseEntity<String> createStudent(@RequestBody Student student){
         ss.createStudent(student);
         return new ResponseEntity<>("the student is successfully added to the system", HttpStatus.CREATED);
     }
 
     //Add required annotations
-    @PutMapping("")
+    @PutMapping("/")
     public ResponseEntity updateStudent(@RequestBody Student student){
         ss.updateStudent(student);
         return new ResponseEntity<>("student is updated", HttpStatus.ACCEPTED);
     }
 
     //Add required annotations
-    @DeleteMapping("")
+    @DeleteMapping("/")
     public ResponseEntity deleteStudent(@RequestParam("id") int id){
         ss.deleteStudent(id);
         return new ResponseEntity<>("student is deleted", HttpStatus.ACCEPTED);
