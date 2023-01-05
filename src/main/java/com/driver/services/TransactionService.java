@@ -129,27 +129,17 @@ public class TransactionService {
         List<Transaction> transactions = transactionRepository5.find(cardId, bookId, TransactionStatus.SUCCESSFUL, true);
         Transaction transaction = transactions.get(transactions.size() - 1);
 
+        if(transactions.size() == 0) return transaction;
+
         //for the given transaction calculate the fine amount considering the book has been returned exactly when this function is called
-//        Date issueDate = transaction.getTransactionDate();
-//        long miliSecondsPassed = issueDate.getTime();
-//        int daysPassed = (int) ((System.currentTimeMillis() - miliSecondsPassed) / (1000 * 60 * 60 * 24));
-//
-//        int fine =0;
-//        if(daysPassed > getMax_allowed_days)
-//        {
-//            fine = (daysPassed - getMax_allowed_days) * fine_per_day;
-//        }
-        // current day
-        Date issuedate = transaction.getTransactionDate();
-        long timeissuse =Math.abs(System.currentTimeMillis()-issuedate.getTime());
-        long no_of_days_passed = TimeUnit.DAYS.convert(timeissuse,TimeUnit.MILLISECONDS);
-
-        // book issue date
-
+        Date issueDate = transaction.getTransactionDate();
+        long miliSecondsPassed = issueDate.getTime();
+        int daysPassed = (int) ((System.currentTimeMillis() - miliSecondsPassed) / (1000 * 60 * 60 * 24));
 
         int fine =0;
-        if(no_of_days_passed>getMax_allowed_days){
-            fine =(int)((no_of_days_passed-getMax_allowed_days)*fine_per_day);
+        if(daysPassed > getMax_allowed_days)
+        {
+            fine = (daysPassed - getMax_allowed_days) * fine_per_day;
         }
         //make the book available for other users
         Book b = bookRepository5.findById(bookId).get();
