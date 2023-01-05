@@ -30,7 +30,7 @@ public class StudentService {
 
     public void createStudent(Student student){
         studentRepository4.save(student); // yeh na bhi likhe tab bhi save ho jaega
-        Card c = cardService4.createAndReturn(student);
+        cardService4.createAndReturn(student);
     }
 
     public void updateStudent(Student student){

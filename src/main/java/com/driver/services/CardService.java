@@ -18,7 +18,7 @@ public class CardService {
         //Card card = null;
         Card c = new Card();
         student.setCard(c);
-        //c.setStudent(student);
+        c.setStudent(student);
         cardRepository3.save(c);
         //link student with a new card
         return c;
