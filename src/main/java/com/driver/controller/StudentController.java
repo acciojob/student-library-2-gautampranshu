@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 //Add required annotations
 @RestController
-@RequestMapping("/student")
+@RequestMapping("student")
 public class StudentController {
 
     @Autowired

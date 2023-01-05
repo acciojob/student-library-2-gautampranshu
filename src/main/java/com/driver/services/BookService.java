@@ -21,21 +21,21 @@ public class BookService {
     AuthorRepository ar;
 
     public void createBook(Book book){
-        //get author using author id ,
-        //jab hum book ka json likhenge tab hume hi batana padega ki yeh kis author ki hain
-        //by giving author id in json
-        int authorId = book.getAuthor().getId();
-        boolean checkAuthor = ar.existsById(authorId);
-        //get the author using author id from author table
-        if(checkAuthor == false) return;
-        Author a = ar.findById(authorId).get();
-        //now set this author list of bookswritten
-        List<Book> books = a.getBooksWritten();
-        books.add(book);
-        a.setBooksWritten(books);
-        book.setAuthor(a);
-        ar.save(a); //parent(author) is saved therefore child(book) will automatically save
-        //bookRepository2.save(book);
+//        //get author using author id ,
+//        //jab hum book ka json likhenge tab hume hi batana padega ki yeh kis author ki hain
+//        //by giving author id in json
+//        int authorId = book.getAuthor().getId();
+//        boolean checkAuthor = ar.existsById(authorId);
+//        //get the author using author id from author table
+//        if(checkAuthor == false) return;
+//        Author a = ar.findById(authorId).get();
+//        //now set this author list of bookswritten
+//        List<Book> books = a.getBooksWritten();
+//        books.add(book);
+//        a.setBooksWritten(books);
+//        book.setAuthor(a);
+//        ar.save(a); //parent(author) is saved therefore child(book) will automatically save
+          bookRepository2.save(book);
     }
 
     public List<Book> getBooks(String genre, boolean available, String author){
