@@ -131,12 +131,12 @@ public class TransactionService {
         //for the given transaction calculate the fine amount considering the book has been returned exactly when this function is called
         Date issueDate = transaction.getTransactionDate();
         long miliSecondsPassed = issueDate.getTime();
-        int daysPassed = (int) ((miliSecondsPassed - System.currentTimeMillis()) / (1000 * 60 * 60 * 24));
+        int daysPassed = (int) ((System.currentTimeMillis() - miliSecondsPassed) / (1000 * 60 * 60 * 24));
 
         int fine =0;
         if(daysPassed > getMax_allowed_days)
         {
-            fine = (getMax_allowed_days - daysPassed) * fine_per_day;
+            fine = (daysPassed - getMax_allowed_days) * fine_per_day;
         }
         //make the book available for other users
         Book b = bookRepository5.findById(bookId).get();
